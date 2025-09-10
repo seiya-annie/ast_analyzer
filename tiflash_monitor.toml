@@ -1,0 +1,38 @@
+# tiflash_monitor.toml
+
+# 策略A: 监控指定文件中的函数是否发生变更
+[[strategy_a]]
+file = "components/raftstore/src/store/fsm/apply.rs"
+functions = ["apply_raft_cmd", "exec_admin_cmd", "exec_write_cmd", "handle_ingest_sst"]
+
+[[strategy_a]]
+file = "components/raftstore/src/store/worker/region.rs"
+functions = ["handle_pending_applies", "apply_snap", "handle_apply"]
+
+[[strategy_a]]
+file = "components/txn_types/src/lock.rs"
+functions = ["to_bytes"]
+
+# 策略B: 监控指定文件中是否新增或删除了调用点
+[[strategy_b]]
+file = "components/raftstore/src/coprocessor/mod.rs"
+functions = ["post_exec_query", "pre_apply_query", "on_empty_cmd", "pre_apply_snapshot", "post_apply_snapshot",
+    "cancel_apply_snapshot", "should_pre_apply_snapshot", "pre_persist", "pre_write_apply_state", "on_raft_message"]
+
+
+# 策略C: 监控指定文件中的 Trait 是否新增或删除了方法
+[[strategy_c]]
+file = "components/engine_traits/src/engine.rs"
+traits = ["KvEngine"]
+
+[[strategy_c]]
+file = "components/engine_traits/src/import.rs"
+traits = ["ImportExt"]
+
+[[strategy_c]]
+file = "components/engine_traits/src/write_batch.rs"
+traits = ["WriteBatch", "WriteBatchExt"]
+
+[[strategy_c]]
+file = "components/engine_traits/src/iterable.rs"
+traits = ["Iterable"]
