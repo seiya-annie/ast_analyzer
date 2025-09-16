@@ -20,7 +20,7 @@ pub struct StrategyARule {
 // 新增 StrategyBRule 结构体
 #[derive(Debug, Deserialize)]
 pub struct StrategyBRule {
-    pub file: String,
+    pub directories: Vec<String>,
     pub functions: Vec<String>,
 }
 

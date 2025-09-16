@@ -65,8 +65,9 @@ fn main() -> ExitCode {
     }
 
     // 策略 B (使用原始代码字符串)
-    for rule in config.strategy_b.iter().filter(|r| r.file == args.file) {
-        all_reports.extend(strategies::analyze_strategy_b(&old_code, &new_code, rule));
+    for rule in &config.strategy_b {
+        // Pass the file path from args directly to the analysis function.
+        all_reports.extend(strategies::analyze_strategy_b(&args.file, &old_ast, &new_ast, rule));
     }
 
     // 策略 C
